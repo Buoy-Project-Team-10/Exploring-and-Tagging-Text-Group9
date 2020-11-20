@@ -92,23 +92,23 @@ The bar plot shows that Elizabeth and Darcy appears together 8 times in chapter 
 We also have the interest to explore how the counts of these sentences with their co-occurence are distributed by chapter.
 
 ```{r message=FALSE, warning=FALSE}
-# Distribution of sentences in chapter
-co_occur_info %>% group_by(sentence) %>% 
-  summarise(u_chapter=unique(chapter),
-            times=n()) %>% 
-  group_by(u_chapter) %>% 
-  summarise(sum_times=sum(times)) %>% 
-  arrange(desc(sum_times)) %>% head(10) %>% 
 
+
+co_occur_info %>% group_by(chapter,paragraph,sentence) %>% 
+  summarise(times=n()) %>% group_by(chapter)%>% 
+  summarise(sum_times=sum(times))%>%
+  arrange(desc(sum_times)) %>% head(10) %>% 
+  
+  
 ggplot() + 
-  geom_bar(aes(x=reorder(u_chapter,sum_times),y=sum_times),stat = "identity") +
-  geom_text(aes(x=reorder(u_chapter,sum_times),y=sum_times,label=sum_times),hjust=-0.5,col="royalblue") + 
+  geom_bar(aes(x=reorder(chapter,sum_times),y=sum_times),stat = "identity") +
+  geom_text(aes(x=reorder(chapter,sum_times),y=sum_times,label=sum_times),hjust=-0.5,col="royalblue") + 
   xlab("Times") + ylab("Chapter") + 
   ggtitle("Distribution of Sentences in Chapters: Elizabeth & Darcy",subtitle = "Count of Their Co-occurence, Top 10") +
   coord_flip()
 ```
 
-The plots denotes that there is the largest count of 70 in sentences in chapter 70 when they appear together in the *Pride and Prejudice*.
+We find out that in each sentence, there is at most 1 co-occurence of `Darcy` and `Elizabeth`. Therefore, the distribution of co-occurence sentences is the same as the previous distribution.
 
 # 2 Money-related Information
 
